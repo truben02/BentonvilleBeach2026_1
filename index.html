@@ -98,6 +98,15 @@
 
 const API = "https://script.google.com/macros/s/AKfycbyRLNVaeEvNzm3hGHqMHBjzscf1jXCjrHAmvK9JoKxL25FY_4TZokAizY3qhQJsSYPLKg/exec";
 
+  function makePoolClickable(poolId, poolLetter, week){
+  const pool = document.getElementById(poolId);
+
+  pool.style.cursor = "pointer";
+
+  pool.onclick = () => {
+    window.location.href = `pool.html?week=${week}&pool=${poolLetter}`;
+  };
+}
 async function loadWeek(week){
 
   document.getElementById("title").innerText = "Week " + week;
@@ -106,6 +115,7 @@ async function loadWeek(week){
 
   const res = await fetch(API + "?sheet=" + sheetName);
   const data = await res.json();
+  
 
   // Column B = index 1
   const col = 1;
@@ -130,8 +140,16 @@ async function loadWeek(week){
 
   addTeams(2,7,"poolA");   // B3:B8
   addTeams(8,13,"poolB");  // B9:B14
-  addTeams(14,19,"poolC"); // B15:B20
-  addTeams(20,25,"poolD"); // B21:B26
+ addTeams(14,19,"poolC"); // B15:B20
+addTeams(20,25,"poolD"); // B21:B26
+
+// Make pools clickable
+makePoolClickable("poolA", "A", week);
+makePoolClickable("poolB", "B", week);
+makePoolClickable("poolC", "C", week);
+makePoolClickable("poolD", "D", week);
+
+}
 
 }
 
