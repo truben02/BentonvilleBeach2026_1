@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>League Table</title>
+</head>
+
+<body>
+
+<h1>League Standings</h1>
+
+<table id="table"></table>
+
+<script>
+
+const API = "https://script.google.com/macros/s/AKfycby-hQGbpFH7uh88u02dIzf91CAOtUh66UX1s4DAWNVLG1K6i1H7H9TOhHoLtOBiCuB1/exec";
+
+async function loadData(){
+
+const res = await fetch(API);
+const data = await res.json();
+
+let table = document.getElementById("table");
+
+data.forEach((row,i)=>{
+  let tr = document.createElement("tr");
+
+  row.forEach((cell,j)=>{
+    let td = document.createElement("td");
+    td.contentEditable = true;
+    td.innerText = cell;
+
+    td.addEventListener("blur", ()=>{
+      updateCell(i+1,j+1,td.innerText);
+    });
+
+    tr.appendChild(td);
+  });
+
+  table.appendChild(tr);
+});
+
+}
+
+async function updateCell(row,col,value){
+
+await fetch(API,{
+  method:"POST",
+  body: JSON.stringify({
+    row:row,
+    col:col,
+    value:value
+  })
+});
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
