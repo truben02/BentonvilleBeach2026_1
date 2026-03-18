@@ -79,18 +79,24 @@ async function loadMatches(){
 
   for(let i = startRow; i <= endRow; i++){
     // Columns mapping: N=13, O=14, P=15, Q=16 (0-indexed)
-    const team1_col1 = data[i][13];
-    const team2_col1 = data[i][14];
-    const team1_col2 = data[i][15];
-    const team2_col2 = data[i][16];
+ const team1_col1 = data[i][13];
+const team2_col1 = data[i][14];
+const team1_col2 = data[i][15];
+const team2_col2 = data[i][16];
 
-createMatch(container, team1_col1, team2_col1, i, 17, 18); // R, S
-createMatch(container, team1_col2, team2_col2, i, 19, 20); // T, U
+// ADD THESE
+const score1_col1 = data[i][17]; // R
+const score2_col1 = data[i][18]; // S
+const score1_col2 = data[i][19]; // T
+const score2_col2 = data[i][20]; // U
+
+createMatch(container, team1_col1, team2_col1, i, 17, 18, score1_col1, score2_col1);
+createMatch(container, team1_col2, team2_col2, i, 19, 20, score1_col2, score2_col2);
   }
 }
 
 // Helper to create a match box
-function createMatch(container, team1, team2, row, col1, col2){
+function createMatch(container, team1, team2, row, col1, col2, score1 = "", score2 = ""){
   const div = document.createElement("div");
   div.className = "match";
 
@@ -195,11 +201,11 @@ function createMatch(container, team1, team2, row, col1, col2){
   div.innerHTML = `
     <div class="team">
       ${team1}
-      <input class="score" data-row="${row}" data-col="${col1}" />
+      <input class="score" value="${score1 || ""}" data-row="${row}" data-col="${col1}" />
     </div>
     <div class="team">
       ${team2}
-      <input class="score" data-row="${row}" data-col="${col2}" />
+     <input class="score" value="${score2 || ""}" data-row="${row}" data-col="${col2}" />
     </div>
   `;
 
